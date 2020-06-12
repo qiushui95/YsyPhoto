@@ -18,8 +18,8 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bnbHome
-            .setActiveColor(R.color.colorPrimary)
-            .setInActiveColor(R.color.colorFFBFBFBF)
+            .setActiveColor(R.color.colorHomeBottomNavigationActive)
+            .setInActiveColor(R.color.colorHomeBottomNavigationInactive)
             .setBarBackgroundColor(R.color.color00000000)
             .addItem(
                 BottomNavigationItem(

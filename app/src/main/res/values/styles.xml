@@ -7,4 +7,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="styleCommonTextView">
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="styleCommonButtonView" parent="styleCommonTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorFFFFFFFF</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="bl_enabled_solid_color">@color/colorPrimary</item>
+        <item name="bl_ripple_color">@color/colorFFFFFFFF</item>
+        <item name="bl_ripple_enable">true</item>
+    </style>
+
+    <style name="styleCommonButtonView.corners8dp">
+        <item name="bl_corners_radius">8dp</item>
+    </style>
 </resources>

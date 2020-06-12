@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/colorFF6200EE</color>
+    <color name="colorPrimaryDark">@color/colorFF3700B3</color>
+    <color name="colorAccent">@color/colorFF03DAC5</color>
+
+    <!--    home start-->
+    <color name="colorHomeBottomNavigationActive">@color/colorPrimary</color>
+    <color name="colorHomeBottomNavigationInactive">@color/colorFF666666</color>
+    <!--    home end-->
+</resources>
