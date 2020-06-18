@@ -5,11 +5,11 @@ import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import me.yangcx.base.viewmodels.delegates.RequestDelegateVM
-import me.yangcx.base.viewmodels.delegates.RequestDelegateVMSimple
+import me.yangcx.base.viewmodels.delegates.RequestDelegateSimpleVM
 
-typealias RequestListDelegateVMImplSimple<DATA> = RequestDelegateVMImplSimple<List<DATA>>
+typealias RequestListDelegateVMImplSimple<DATA> = RequestDelegateSimpleVMImpl<List<DATA>>
 
-class RequestDelegateVMImplSimple<DATA : Parcelable>(
+class RequestDelegateSimpleVMImpl<DATA : Parcelable>(
     handle: SavedStateHandle,
     private val coroutineScope: CoroutineScope,
     cancelBeforeRequest: Boolean,
@@ -22,7 +22,7 @@ class RequestDelegateVMImplSimple<DATA : Parcelable>(
     waitForBeforeFinish,
     requestParentJob,
     keyPostfix
-), RequestDelegateVMSimple<DATA> {
+), RequestDelegateSimpleVM<DATA> {
 
     override fun doChangeBusyStateSimple(busyState: Boolean) {
         coroutineScope.launch(Dispatchers.Main) {

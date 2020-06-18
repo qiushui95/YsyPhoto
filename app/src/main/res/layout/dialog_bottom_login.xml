@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorFFFFFFFF">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieDialogBottomLogin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintDimensionRatio="512:512"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.25"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="lottie_not_login.json"
+        app:lottie_repeatCount="-1"
+        app:lottie_repeatMode="restart" />
+
+    <com.noober.background.view.BLEditText
+        android:id="@+id/etDialogBottomLoginPhone"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:hint="@string/string_dialog_bottom_login_hint"
+        android:imeOptions="actionDone"
+        android:includeFontPadding="false"
+        android:inputType="phone"
+        android:maxLength="11"
+        style="@style/styleCommonEditText"
+        android:textColor="@color/colorFF333333"
+        android:textColorHint="@color/colorFF999999"
+        android:textSize="16sp"
+        app:bl_corners_radius="8dp"
+        app:bl_stroke_color="@color/colorPrimary"
+        app:bl_stroke_width="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lottieDialogBottomLogin"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/btnDialogBottomLoginCancel"
+        style="@style/styleCommonButtonView"
+        android:layout_marginTop="36dp"
+        android:text="@string/string_common_cancel"
+        app:bl_enabled_solid_color="@color/colorPrimaryDisable"
+        app:layout_constraintEnd_toStartOf="@id/btnDialogBottomLoginContinue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etDialogBottomLoginPhone" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/btnDialogBottomLoginContinue"
+        style="@style/styleCommonButtonView"
+        android:text="@string/string_dialog_bottom_login_btn_continue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnDialogBottomLoginCancel"
+        app:layout_constraintTop_toTopOf="@id/btnDialogBottomLoginCancel" />
+</androidx.constraintlayout.widget.ConstraintLayout>

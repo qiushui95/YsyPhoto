@@ -4,17 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
 import com.blankj.utilcode.util.LogUtils
-import com.squareup.moshi.Moshi
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.koin.core.KoinComponent
-import org.koin.core.get
 import org.koin.core.inject
-import retrofit2.HttpException
-import son.ysy.photo.entities.response.ResponseErrorInfo
 import son.ysy.photo.entities.response.ResponseLoginResult
-import son.ysy.photo.exceptions.ResponseException
 import son.ysy.photo.repositories.LoginRepository
 
 object LoginStatusData : KoinComponent {
@@ -24,17 +19,21 @@ object LoginStatusData : KoinComponent {
 
     private val loginRepository by inject<LoginRepository>()
 
+    private val busyStateMutable by lazy {
+        MutableLiveData<Boolean>()
+    }
+
+    val busyState: LiveData<Boolean> = busyStateMutable.distinctUntilChanged()
+
     private val loginStatusMutable by lazy {
         MutableLiveData(false)
     }
 
     val loginStatus: LiveData<Boolean> = loginStatusMutable.distinctUntilChanged()
 
-    private val loginResultCheckingMutable by lazy {
-        MutableLiveData<Boolean>()
-    }
+    private var error: Throwable? = null
 
-    val loginResultChecking: LiveData<Boolean> = loginResultCheckingMutable.distinctUntilChanged()
+    fun getError() = error
 
     var loginResult: ResponseLoginResult? = MMKV.defaultMMKV()
         .decodeParcelable(KEY_LOGIN_RESULT, ResponseLoginResult::class.java)
@@ -48,9 +47,21 @@ object LoginStatusData : KoinComponent {
             field = value
         }
 
-    fun loginIn(loginResult: ResponseLoginResult) {
-        loginStatusMutable.postValue(true)
-        this.loginResult = loginResult
+    suspend fun loginIn(phone: String) {
+        loginRepository.login(phone)
+            .onStart {
+                busyStateMutable.postValue(true)
+            }.onCompletion {
+                busyStateMutable.postValue(false)
+            }.catch {
+                error = it
+            }
+            .flowOn(Dispatchers.IO)
+            .collect {
+                error = null
+                loginStatusMutable.postValue(true)
+                this.loginResult = loginResult
+            }
     }
 
     fun logout() {
@@ -66,14 +77,15 @@ object LoginStatusData : KoinComponent {
         launch(Dispatchers.IO + parentJob) {
             loginRepository.checkLogin()
                 .catch {
-                    LogUtils.w(it.message)
+                    error = it
                 }
                 .onStart {
-                    loginResultCheckingMutable.postValue(true)
+                    busyStateMutable.postValue(true)
                 }.onCompletion {
-                    loginResultCheckingMutable.postValue(false)
+                    busyStateMutable.postValue(false)
                 }.flowOn(Dispatchers.IO)
                 .collect {
+                    error = null
                     loginStatusMutable.postValue(it)
                 }
         }

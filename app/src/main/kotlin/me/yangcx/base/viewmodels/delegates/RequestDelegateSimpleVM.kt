@@ -3,7 +3,7 @@ package me.yangcx.base.viewmodels.delegates
 import android.os.Parcelable
 import kotlinx.coroutines.flow.Flow
 
-interface RequestDelegateVMSimple<DATA : Parcelable> : RequestDelegateVM<DATA> {
+interface RequestDelegateSimpleVM<DATA : Parcelable> : RequestDelegateVM<DATA> {
     fun doChangeBusyStateSimple(busyState: Boolean)
     fun doChangeErrorSimple(error: Throwable)
     fun doChangeDataSimple(newData: DATA)

@@ -38,6 +38,9 @@ object Libs {
 
         //图片预览
         const val imageViewer = "com.github.iielse:imageviewer:2.0.13"
+
+        //弹窗框架
+        const val popup = "com.lxj:xpopup:2.0.2"
     }
 
     object Group {
@@ -69,9 +72,6 @@ object Libs {
 
             //带加载的button
             const val loadingButton = "com.github.lihangleo2:SmartLoadingView:2.0.1"
-
-            //弹窗框架
-            const val popup = "com.github.razerdp:BasePopup_Candy:2.2.4.0512"
 
             //下拉刷新
             const val refreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01"
@@ -107,7 +107,7 @@ object Libs {
 
         //依赖注入框架
         object Koin {
-            private const val version = "2.1.5"
+            private const val version = "2.1.6"
             const val scope = "org.koin:koin-androidx-scope:$version"
             const val viewModel = "org.koin:koin-androidx-viewmodel:$version"
             const val ext = "org.koin:koin-androidx-ext:$version"

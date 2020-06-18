@@ -14,4 +14,10 @@ class LoginRepository : BaseRepository() {
             .value
         emit(checkResult)
     }.catchHttpException()
+
+    fun login(phone: String) = flow {
+        loginApi.login(phone).apply {
+            emit(this)
+        }
+    }.catchHttpException()
 }

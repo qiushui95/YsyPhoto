@@ -7,32 +7,41 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieItemLoginChecking"
+        android:id="@+id/lottieItemNotLogin"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tvItemLoginCheckingTip"
-        app:layout_constraintDimensionRatio="500:500"
+        app:layout_constraintBottom_toTopOf="@id/tvItemNotLoginTip"
+        app:layout_constraintDimensionRatio="512:512"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintWidth_percent="0.3"
         app:lottie_autoPlay="false"
-        app:lottie_fileName="lottie_loading.json"
+        app:lottie_fileName="lottie_not_login.json"
         app:lottie_repeatCount="-1"
         app:lottie_repeatMode="restart" />
 
     <TextView
-        android:id="@+id/tvItemLoginCheckingTip"
+        android:id="@+id/tvItemNotLoginTip"
         style="@style/styleCommonTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/string_item_login_checking_tip"
         android:textColor="@color/colorFF333333"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lottieItemLoginChecking" />
+        app:layout_constraintTop_toBottomOf="@id/lottieItemNotLogin" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/btnItemNotLogin"
+        style="@style/styleCommonButtonView.corners8dp"
+        android:text="@string/string_item_not_login_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvItemNotLoginTip"
+        app:layout_constraintWidth_percent="0.75" />
 </merge>

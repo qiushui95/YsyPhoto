@@ -16,9 +16,10 @@ import me.yangcx.base.fragments.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import son.ysy.photo.R
 import son.ysy.photo.data.LoginStatusData
-import son.ysy.photo.ui.items.ItemLoginCheckingViewModel_
-import son.ysy.photo.ui.items.itemLoginCheckingView
-import son.ysy.photo.ui.items.itemNotLoginView
+import son.ysy.photo.ext.getShowMessage
+import son.ysy.photo.ui.MainActivity
+import son.ysy.photo.ui.items.itemLoadingFullView
+import son.ysy.photo.ui.items.itemNotLoginFullView
 
 @BindLayoutRes(R.layout.fragment_home_mine)
 class HomeMineFragment : BaseFragment() {
@@ -32,40 +33,52 @@ class HomeMineFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvHomeMine.withModels {
-            itemNotLoginView {
-                id(javaClass.name)
-            }
-        }
         bindViewModel()
     }
 
     private fun bindViewModel() {
-        LoginStatusData.loginResultChecking
-            .observeViewLifecycle(this) { checking ->
-                if (checking) {
+        LoginStatusData.busyState
+            .observeViewLifecycle(this) { loginBusy ->
+                if (loginBusy) {
                     if (this::loginStatusObserver.isInitialized) {
                         LoginStatusData.loginStatus.removeObserver(loginStatusObserver)
                     }
                     rvHomeMine.withModels {
-                        itemLoginCheckingView {
+                        itemLoadingFullView {
                             id(0)
+                            loadingMessage(R.string.string_common_loading)
                         }
                     }
                 } else {
                     rvHomeMine.clear()
-                    loginStatusObserver = LoginStatusData.loginStatus
-                        .observeViewLifecycle(this) { loginStatus ->
-                            if (loginStatus) {
-                                rvHomeMine.clear()
-                            } else {
-                                rvHomeMine.withModels {
-                                    itemNotLoginView {
-                                        id(0)
-                                    }
+                    val error = LoginStatusData.getError()
+                    if (error != null) {
+                        rvHomeMine.withModels {
+                            itemNotLoginFullView {
+                                id(0)
+                                loginTip(error.getShowMessage())
+                                loginClick {
+                                    (activity as? MainActivity)?.showLoginDialog()
                                 }
                             }
                         }
+                    } else {
+                        loginStatusObserver = LoginStatusData.loginStatus
+                            .observeViewLifecycle(this) { loginStatus ->
+                                if (loginStatus) {
+                                    rvHomeMine.clear()
+                                } else {
+                                    rvHomeMine.withModels {
+                                        itemNotLoginFullView {
+                                            id(0)
+                                            loginClick {
+                                                (activity as? MainActivity)?.showLoginDialog()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                    }
                 }
             }
     }

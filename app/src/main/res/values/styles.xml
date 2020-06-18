@@ -20,6 +20,7 @@
         <item name="android:textIsSelectable">false</item>
         <item name="android:textSize">16sp</item>
         <item name="bl_enabled_solid_color">@color/colorPrimary</item>
+        <item name="bl_unEnabled_solid_color">@color/colorPrimaryDisable</item>
         <item name="bl_ripple_color">@color/colorFFFFFFFF</item>
         <item name="bl_ripple_enable">true</item>
     </style>
@@ -27,4 +28,9 @@
     <style name="styleCommonButtonView.corners8dp">
         <item name="bl_corners_radius">8dp</item>
     </style>
+
+    <style name="styleCommonEditText" parent="styleCommonTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor_default</item>
+    </style>
+
 </resources>

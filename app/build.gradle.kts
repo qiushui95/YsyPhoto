@@ -143,6 +143,8 @@ dependencies {
     implementation(Libs.Group.View.viewPager2)
     //实时背景高斯模糊
     implementation(Libs.Group.View.realTimeBlurView)
+    //弹窗框架
+    implementation(Libs.Single.popup)
 
 
     testImplementation("junit:junit:4.13")
