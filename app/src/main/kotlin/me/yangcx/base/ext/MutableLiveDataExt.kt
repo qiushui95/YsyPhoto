@@ -16,10 +16,10 @@ inline fun <reified T : Any> MutableLiveData<T>.updateValue(
     }
 }
 
-fun <T1 : Any, T2 : Any> LiveData<T1>.merge(
-    mergeLiveData: LiveData<T2>,
+fun <T0 : Any, T1 : Any> LiveData<T0>.merge(
     lifecycleOwner: LifecycleOwner,
-    onChangeBlock: (data1: T1?, data2: T2?) -> Unit
+    mergeLiveData: LiveData<T1>,
+    onChangeBlock: (data1: T0?, data2: T1?) -> Unit
 ) {
     observe(lifecycleOwner) {
         onChangeBlock(it, mergeLiveData.value)
@@ -30,9 +30,9 @@ fun <T1 : Any, T2 : Any> LiveData<T1>.merge(
 }
 
 fun <T0 : Any, T1 : Any, T2 : Any> LiveData<T0>.merge(
+    lifecycleOwner: LifecycleOwner,
     mergeLiveData1: LiveData<T1>,
     mergeLiveData2: LiveData<T2>,
-    lifecycleOwner: LifecycleOwner,
     onChangeBlock: (data1: T0?, data2: T1?, data3: T2?) -> Unit
 ) {
     observe(lifecycleOwner) {

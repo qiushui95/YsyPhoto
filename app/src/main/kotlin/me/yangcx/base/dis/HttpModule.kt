@@ -18,10 +18,10 @@ class HttpModule(okHttpConfig: DefaultOkHttpConfig) {
                     .connectTimeout(UsedConstants.HTTP_TIME_OUT * 1L, TimeUnit.MILLISECONDS)
                     .readTimeout(UsedConstants.HTTP_TIME_OUT * 1L, TimeUnit.MILLISECONDS)
                     .writeTimeout(UsedConstants.HTTP_TIME_OUT * 1L, TimeUnit.MILLISECONDS)
+                    .configDebug(get())
                     .apply {
                         okHttpConfig.configClient(this)
                     }
-                    .configDebug(get())
                     .build()
             }
 

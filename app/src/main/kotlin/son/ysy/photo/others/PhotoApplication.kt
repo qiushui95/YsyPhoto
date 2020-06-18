@@ -1,6 +1,6 @@
 package son.ysy.photo.others
 
-import me.yangcx.base.dis.ViewModelModule
+import son.ysy.photo.dis.ViewModelModule
 import me.yangcx.base.https.DefaultOkHttpConfig
 import me.yangcx.base.others.BaseApplication
 import org.koin.core.module.Module

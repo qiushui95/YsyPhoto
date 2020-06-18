@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import me.yangcx.base.viewmodels.delegates.RequestDelegateVM
+import me.yangcx.base.viewmodels.delegates.RequestDelegateVMSimple
 
 typealias RequestListDelegateVMImplSimple<DATA> = RequestDelegateVMImplSimple<List<DATA>>
 
@@ -21,38 +22,39 @@ class RequestDelegateVMImplSimple<DATA : Parcelable>(
     waitForBeforeFinish,
     requestParentJob,
     keyPostfix
-) {
-    fun doChangeBusyStateSimple(busyState: Boolean) {
+), RequestDelegateVMSimple<DATA> {
+
+    override fun doChangeBusyStateSimple(busyState: Boolean) {
         coroutineScope.launch(Dispatchers.Main) {
             doChangeBusyState(busyState)
         }
     }
 
-    fun doChangeErrorSimple(error: Throwable) {
+    override fun doChangeErrorSimple(error: Throwable) {
         coroutineScope.launch(Dispatchers.Main) {
             doChangeError(error)
         }
     }
 
-    fun doChangeDataSimple(newData: DATA) {
+    override fun doChangeDataSimple(newData: DATA) {
         coroutineScope.launch(Dispatchers.Main) {
             doChangeData(newData)
         }
     }
 
-    fun retrySimple() {
+    override fun retrySimple() {
         coroutineScope.launch(Dispatchers.Main) {
             retry()
         }
     }
 
-    fun doRequestSimple(flowCreator: () -> Flow<DATA>) {
+    override fun doRequestSimple(flowCreator: () -> Flow<DATA>) {
         coroutineScope.launch(Dispatchers.Main) {
             doRequest(flowCreator)
         }
     }
 
-    fun doRequestSimple(
+    override fun doRequestSimple(
         flowCreator: () -> Flow<DATA>,
         outDeal: (flow: Flow<DATA>) -> Flow<DATA>
     ) {
@@ -61,7 +63,7 @@ class RequestDelegateVMImplSimple<DATA : Parcelable>(
         }
     }
 
-    fun <RESPONSE : Any> doMapperRequestSimple(
+    override fun <RESPONSE : Any> doMapperRequestSimple(
         flowCreator: () -> Flow<RESPONSE>,
         flowMapper: (mapper: RESPONSE) -> DATA?
     ) {
@@ -70,7 +72,7 @@ class RequestDelegateVMImplSimple<DATA : Parcelable>(
         }
     }
 
-    fun <RESPONSE : Any> doMapperRequestSimple(
+    override fun <RESPONSE : Any> doMapperRequestSimple(
         flowCreator: () -> Flow<RESPONSE>,
         flowMapper: (mapper: RESPONSE) -> DATA?,
         outDeal: (flow: Flow<DATA>) -> Flow<DATA>

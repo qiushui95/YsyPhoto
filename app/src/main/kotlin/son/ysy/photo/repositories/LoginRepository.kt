@@ -10,7 +10,8 @@ class LoginRepository : BaseRepository() {
     private val loginApi by inject<LoginApi>()
 
     fun checkLogin() = flow<Boolean> {
-        val checkResult = loginApi.checkLogin().value
+        val checkResult = loginApi.checkLogin()
+            .value
         emit(checkResult)
-    }
+    }.catchHttpException()
 }

@@ -66,12 +66,11 @@ abstract class BaseApplication : Application(), TaskCreator {
         throw UndefineInitTaskException(taskName)
     }
 
-    protected open fun createAnchors(): Array<String> = arrayOf(KoinInitTask.TASK_NAME,MmkvInitTask.TASK_NAME)
+    protected open fun createAnchors(): Array<String> = arrayOf(KoinInitTask.TASK_NAME)
 
     protected open fun createGraphics(): Array<String> = arrayOf(
         AndroidUtilCodeInitTask.TASK_NAME,
-        KoinInitTask.TASK_NAME,
-        MmkvInitTask.TASK_NAME,
+        MmkvInitTask.TASK_NAME.sons(KoinInitTask.TASK_NAME),
         SpiderManInitTask.TASK_NAME,
         StethoInitTask.TASK_NAME
     )

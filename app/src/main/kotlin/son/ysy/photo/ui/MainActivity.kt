@@ -19,7 +19,7 @@ class MainActivity : BaseActivity() {
         BarUtils.transparentStatusBar(this)
         LoginStatusData.loginResultChecking
             .observe(this) {
-                LogUtils.e(it)
+
             }
     }
 

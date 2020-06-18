@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorFFFFFFFF">
+
+    <ImageView
+        android:id="@+id/ivItemHomeMineUserInfoAvatar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.25"
+        tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/btnItemHomeMineUserInfoSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:adjustViewBounds="true"
+        android:padding="4dp"
+        android:src="@drawable/ic_home_mine_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvItemHomeMineUserInfoPhone"
+        style="@style/styleCommonTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorFF333333"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/tvItemHomeMineUserInfoRelationship"
+        app:layout_constraintEnd_toStartOf="@id/btnItemHomeMineUserInfoSetting"
+        app:layout_constraintStart_toEndOf="@id/ivItemHomeMineUserInfoAvatar"
+        app:layout_constraintTop_toTopOf="@id/ivItemHomeMineUserInfoAvatar"
+        tools:text="135****7567" />
+
+    <TextView
+        android:id="@+id/tvItemHomeMineUserInfoRelationship"
+        style="@style/styleCommonTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorFF666666"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivItemHomeMineUserInfoAvatar"
+        app:layout_constraintEnd_toEndOf="@id/tvItemHomeMineUserInfoPhone"
+        app:layout_constraintStart_toStartOf="@id/tvItemHomeMineUserInfoPhone"
+        app:layout_constraintTop_toBottomOf="@id/tvItemHomeMineUserInfoPhone"
+        tools:text="爸爸" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,18 @@
     <string name="string_home_menu_mine">我的</string>
     <!--home end-->
 
+    <!--    throwable message define start-->
+    <string name="string_throwable_message_json">数据解析异常</string>
+    <string name="string_throwable_message_unknown">未知异常</string>
+    <!--    throwable message define end-->
+
     <!--item not login start-->
     <string name="string_item_not_login_tip">暂未登录,请先登录</string>
     <string name="string_item_not_login_button">登录</string>
     <!--item not login end-->
+
+    <!--item login checking start-->
+    <string name="string_item_login_checking_tip">登录状态检查中,请稍后</string>
+    <!--item login checking end-->
+
 </resources>
