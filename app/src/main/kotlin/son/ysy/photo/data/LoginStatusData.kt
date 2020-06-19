@@ -69,7 +69,7 @@ object LoginStatusData : KoinComponent {
         this.loginResult = null
     }
 
-    suspend fun checkLoginResult() = coroutineScope {
+    suspend fun checkLoginResult() = coroutineScope<Unit> {
         parentJob.children
             .forEach {
                 it.cancelAndJoin()

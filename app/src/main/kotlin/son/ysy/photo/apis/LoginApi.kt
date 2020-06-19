@@ -9,7 +9,7 @@ import son.ysy.photo.entities.response.ResponseLoginResult
 interface LoginApi {
 
     //region 检查token是否可用
-    @GET("login/check")
+    @GET("login")
     suspend fun checkLogin(): ParcelableBoolean
     //endregion
 

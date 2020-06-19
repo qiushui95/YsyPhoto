@@ -4,6 +4,7 @@
     <!--    common start-->
     <string name="string_common_cancel">取消</string>
     <string name="string_common_loading">加载中,请稍后</string>
+    <string name="string_common_retry">重试</string>
     <!--    common end-->
 
     <!--    error message start-->

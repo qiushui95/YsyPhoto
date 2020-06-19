@@ -143,8 +143,8 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         setError(error)
     }
 
-    private suspend fun dealFlowResult(flow: Flow<DATA>) {
-        flow.onStart {
+    private suspend fun Flow<DATA>.dealFlowResult() {
+        onStart {
             setBusyState(true)
         }.onCompletion {
             setBusyState(false)
@@ -176,14 +176,6 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
     }
 
     override suspend fun doRequest(flowCreator: () -> Flow<DATA>) {
-        doRequest(flowCreator) { it }
-    }
-
-    @Synchronized
-    override suspend fun doRequest(
-        flowCreator: () -> Flow<DATA>,
-        outDeal: (flow: Flow<DATA>) -> Flow<DATA>
-    ) {
         retryBlock = {
             launch {
                 beforeRequest()
@@ -191,52 +183,7 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
                     withContext(Dispatchers.IO) {
                         flowCreator()
                     }.flowOn(Dispatchers.IO)
-                        .run(outDeal)
-                        .flowOn(Dispatchers.Main)
-                        .apply {
-                            dealFlowResult(this)
-                        }
-                }
-            }
-        }
-        coroutineScope {
-            retryBlock?.invoke(this)
-        }
-    }
-
-    @Synchronized
-    override suspend fun <RESPONSE : Any> doMapperRequest(
-        flowCreator: () -> Flow<RESPONSE>,
-        flowMapper: (mapper: RESPONSE) -> DATA?
-    ) {
-        doMapperRequest(
-            flowCreator,
-            flowMapper
-        ) {
-            it
-        }
-    }
-
-    @Synchronized
-    override suspend fun <RESPONSE : Any> doMapperRequest(
-        flowCreator: () -> Flow<RESPONSE>,
-        flowMapper: (mapper: RESPONSE) -> DATA?,
-        outDeal: (flow: Flow<DATA>) -> Flow<DATA>
-    ) {
-        retryBlock = {
-            launch {
-                beforeRequest()
-                launch(Dispatchers.Main + requestParentJob) {
-                    withContext(Dispatchers.IO) {
-                        flowCreator()
-                    }.mapNotNull {
-                        flowMapper(it)
-                    }.flowOn(Dispatchers.IO)
-                        .run(outDeal)
-                        .flowOn(Dispatchers.Main)
-                        .apply {
-                            dealFlowResult(this)
-                        }
+                        .dealFlowResult()
                 }
             }
         }

@@ -9,6 +9,7 @@ import org.koin.core.inject
 import retrofit2.HttpException
 import son.ysy.photo.entities.response.ResponseErrorInfo
 import son.ysy.photo.exceptions.ResponseException
+import son.ysy.photo.exceptions.ResponseTokenException
 
 abstract class BaseRepository : KoinComponent {
     private val moShi by inject<Moshi>()
@@ -19,7 +20,7 @@ abstract class BaseRepository : KoinComponent {
             )
     }
 
-    fun <T : Any> Flow<T>.catchHttpException(): Flow<T> {
+    protected fun <T : Any> Flow<T>.catchHttpException(): Flow<T> {
         return catch {
             var throwable: Throwable = it
             if (it is HttpException) {
@@ -28,7 +29,11 @@ abstract class BaseRepository : KoinComponent {
                     ?.run {
                         readErrorInfoFromErrorBody(this)
                     }?.run {
-                        ResponseException(code, message)
+                        when (code) {
+                            in 700..701 -> ResponseTokenException(code, message)
+                            else -> ResponseException(code, message)
+
+                        }
                     }?.apply {
                         throwable = this
                     }

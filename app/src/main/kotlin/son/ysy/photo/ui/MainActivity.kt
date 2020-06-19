@@ -27,14 +27,11 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         BarUtils.transparentStatusBar(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
         lifecycleScope.launchWhenResumed {
             LoginStatusData.checkLoginResult()
         }
     }
+
 
     fun showLoginDialog() {
         loginDialog.show()

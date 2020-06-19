@@ -3,9 +3,9 @@ package me.yangcx.base.viewmodels.delegates
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
+import me.yangcx.base.parcelables.ParcelableList
 
-interface RequestDelegateVM<DATA : Parcelable> {
-
+interface RequestPageDelegateVM<DATA : Parcelable> {
     val busyStateLive: LiveData<Boolean>
 
     val busyStateFlow: Flow<Boolean>
@@ -26,5 +26,5 @@ interface RequestDelegateVM<DATA : Parcelable> {
 
     suspend fun retry()
 
-    suspend fun doRequest(flowCreator: () -> Flow<DATA>)
+    suspend fun doRequest(isRefresh: Boolean, flowCreator: () -> Flow<DATA>)
 }

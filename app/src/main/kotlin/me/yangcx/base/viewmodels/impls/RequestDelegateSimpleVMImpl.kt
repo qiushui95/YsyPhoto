@@ -53,32 +53,4 @@ class RequestDelegateSimpleVMImpl<DATA : Parcelable>(
             doRequest(flowCreator)
         }
     }
-
-    override fun doRequestSimple(
-        flowCreator: () -> Flow<DATA>,
-        outDeal: (flow: Flow<DATA>) -> Flow<DATA>
-    ) {
-        coroutineScope.launch(Dispatchers.Main) {
-            doRequest(flowCreator, outDeal)
-        }
-    }
-
-    override fun <RESPONSE : Any> doMapperRequestSimple(
-        flowCreator: () -> Flow<RESPONSE>,
-        flowMapper: (mapper: RESPONSE) -> DATA?
-    ) {
-        coroutineScope.launch(Dispatchers.Main) {
-            doMapperRequest(flowCreator, flowMapper)
-        }
-    }
-
-    override fun <RESPONSE : Any> doMapperRequestSimple(
-        flowCreator: () -> Flow<RESPONSE>,
-        flowMapper: (mapper: RESPONSE) -> DATA?,
-        outDeal: (flow: Flow<DATA>) -> Flow<DATA>
-    ) {
-        coroutineScope.launch(Dispatchers.Main) {
-            doMapperRequest(flowCreator, flowMapper, outDeal)
-        }
-    }
 }

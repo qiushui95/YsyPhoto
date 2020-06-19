@@ -7,23 +7,23 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieItemNotLogin"
+        android:id="@+id/lottieItemErrorFull"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tvItemNotLoginTip"
-        app:layout_constraintDimensionRatio="512:512"
+        app:layout_constraintBottom_toTopOf="@id/tvItemErrorFullTip"
+        app:layout_constraintDimensionRatio="32:32"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintWidth_percent="0.3"
         app:lottie_autoPlay="false"
-        app:lottie_fileName="lottie_not_login.json"
+        app:lottie_fileName="lottie_error.json"
         app:lottie_repeatCount="-1"
         app:lottie_repeatMode="restart" />
 
     <TextView
-        android:id="@+id/tvItemNotLoginTip"
+        android:id="@+id/tvItemErrorFullTip"
         style="@style/styleCommonTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,15 +36,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lottieItemNotLogin" />
+        app:layout_constraintTop_toBottomOf="@id/lottieItemErrorFull" />
 
     <com.noober.background.view.BLTextView
-        android:id="@+id/btnItemNotLogin"
+        android:id="@+id/btnItemErrorFullRetry"
         style="@style/styleCommonButtonView.corners8dp"
-        android:text="@string/string_item_not_login_button"
+        android:text="@string/string_common_retry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvItemNotLoginTip"
+        app:layout_constraintTop_toBottomOf="@id/tvItemErrorFullTip"
         app:layout_constraintWidth_percent="0.75" />
 </merge>

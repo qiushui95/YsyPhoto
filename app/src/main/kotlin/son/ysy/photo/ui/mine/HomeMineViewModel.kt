@@ -22,13 +22,17 @@ class HomeMineViewModel(handle: SavedStateHandle) : BaseViewModel() {
         )
     }
 
-    init {
-        getUserInfo()
-    }
-
-    fun getUserInfo() {
+    private fun getUserInfo() {
         userInfoGetDelegate.doRequestSimple {
             userInfoRepository.getUserInfo()
         }
+    }
+
+    fun refreshData() {
+        getUserInfo()
+    }
+
+    fun clearData() {
+
     }
 }

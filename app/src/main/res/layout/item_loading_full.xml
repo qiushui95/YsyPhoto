@@ -7,10 +7,10 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieItemLoginChecking"
+        android:id="@+id/lottieItemLoadingFull"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tvItemLoginCheckingTip"
+        app:layout_constraintBottom_toTopOf="@id/tvItemLoadingFullTip"
         app:layout_constraintDimensionRatio="500:500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,16 +23,19 @@
         app:lottie_repeatMode="restart" />
 
     <TextView
-        android:id="@+id/tvItemLoginCheckingTip"
+        android:id="@+id/tvItemLoadingFullTip"
         style="@style/styleCommonTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:textColor="@color/colorFF333333"
         android:textSize="16sp"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lottieItemLoginChecking"
+        app:layout_constraintTop_toBottomOf="@id/lottieItemLoadingFull"
         tools:text="@string/string_common_loading" />
 </merge>
