@@ -22,6 +22,7 @@
 
     <com.noober.background.view.BLEditText
         android:id="@+id/etDialogBottomLoginPhone"
+        style="@style/styleCommonEditText"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -31,7 +32,6 @@
         android:includeFontPadding="false"
         android:inputType="phone"
         android:maxLength="11"
-        style="@style/styleCommonEditText"
         android:textColor="@color/colorFF333333"
         android:textColorHint="@color/colorFF999999"
         android:textSize="16sp"
@@ -42,6 +42,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lottieDialogBottomLogin"
         app:layout_constraintWidth_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupDialogBottomLoginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btnDialogBottomLoginCancel,btnDialogBottomLoginContinue" />
 
     <com.noober.background.view.BLTextView
         android:id="@+id/btnDialogBottomLoginCancel"
@@ -60,4 +66,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnDialogBottomLoginCancel"
         app:layout_constraintTop_toTopOf="@id/btnDialogBottomLoginCancel" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieDialogBottomLogining"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/btnDialogBottomLoginCancel"
+        app:layout_constraintEnd_toEndOf="@id/btnDialogBottomLoginContinue"
+        app:layout_constraintStart_toStartOf="@id/btnDialogBottomLoginCancel"
+        app:layout_constraintTop_toBottomOf="@id/etDialogBottomLoginPhone"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="lottie_logining.json"
+        app:lottie_repeatCount="-1"
+        app:lottie_repeatMode="restart" />
 </androidx.constraintlayout.widget.ConstraintLayout>

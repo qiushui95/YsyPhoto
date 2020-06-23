@@ -6,6 +6,7 @@ import me.yangcx.base.viewmodels.BaseViewModel
 import me.yangcx.base.viewmodels.delegates.RequestDelegateSimpleVM
 import me.yangcx.base.viewmodels.impls.RequestDelegateSimpleVMImpl
 import org.koin.core.inject
+import son.ysy.photo.entities.response.ResponseLoginResult
 import son.ysy.photo.entities.response.ResponseUserInfo
 import son.ysy.photo.repositories.UserInfoRepository
 
@@ -22,9 +23,18 @@ class HomeMineViewModel(handle: SavedStateHandle) : BaseViewModel() {
         )
     }
 
+    private var loginResult: ResponseLoginResult? = null
+
     private fun getUserInfo() {
         userInfoGetDelegate.doRequestSimple {
             userInfoRepository.getUserInfo()
+        }
+    }
+
+    fun getUserInfo(loginResult: ResponseLoginResult) {
+        if (this.loginResult != loginResult) {
+            this.loginResult = loginResult
+            getUserInfo()
         }
     }
 

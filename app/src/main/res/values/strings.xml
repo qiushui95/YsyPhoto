@@ -27,6 +27,7 @@
 
     <!--item not login start-->
     <string name="string_item_not_login_button">登录</string>
+    <string name="string_item_not_login_tip_default">未登录,请登录</string>
     <!--item not login end-->
 
 
@@ -35,4 +36,9 @@
     <string name="string_dialog_bottom_login_btn_continue">登录</string>
     <string name="string_dialog_bottom_login_phone_format_error">手机号格式错误,请检查</string>
     <!--    dialog bottom login end-->
+
+    <string name="string_home_mine_button_album">我的相册</string>
+    <string name="string_home_mine_button_upload">立即上传</string>
+    <string name="string_home_mine_button_share">分享</string>
+    <string name="string_home_mine_button_logout">退出账号</string>
 </resources>

@@ -3,15 +3,17 @@ package me.yangcx.base.viewmodels.impls
 import android.os.Parcelable
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.distinctUntilChanged
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.*
+import me.yangcx.base.entities.RequestStatus
 import me.yangcx.base.viewmodels.delegates.RequestDelegateVM
 
 class RequestDelegateVMImpl<DATA : Parcelable>(
-    handle: SavedStateHandle,
+    handle: SavedStateHandle?,
     private val cancelBeforeRequest: Boolean,
     private val waitForBeforeFinish: Boolean,
     private val requestParentJob: Job = SupervisorJob(),
@@ -21,6 +23,7 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         private const val KEY_BUSY_STATE = "RequestDelegateBusyState2"
         private const val KEY_ERROR = "RequestDelegateError2"
         private const val KEY_DATA = "RequestDelegateData2"
+        private const val KEY_REQUEST_STATUS = "RequestDelegateStatus2"
     }
 
     private val usedKeyPostfix by lazy {
@@ -29,12 +32,9 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         } ?: System.identityHashCode(this).toString()
     }
 
-
-    private val _busyStateLiveDelegate = lazy {
-        handle.getLiveData<Boolean>(KEY_BUSY_STATE + usedKeyPostfix)
+    private val _busyStateLive by lazy {
+        handle?.getLiveData<Boolean>(KEY_BUSY_STATE + usedKeyPostfix) ?: MutableLiveData()
     }
-
-    private val _busyStateLive by _busyStateLiveDelegate
 
     override val busyStateLive: LiveData<Boolean> by lazy {
         _busyStateLive.distinctUntilChanged()
@@ -50,12 +50,9 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         _busyStateChannel.asFlow()
     }
 
-    private val _errorLiveDelegate = lazy {
-        handle.getLiveData<Throwable>(KEY_ERROR + usedKeyPostfix)
+    private val _errorLive by lazy {
+        handle?.getLiveData<Throwable>(KEY_ERROR + usedKeyPostfix) ?: MutableLiveData()
     }
-
-
-    private val _errorLive by _errorLiveDelegate
 
     override val errorLive: LiveData<Throwable> by lazy {
         _errorLive
@@ -71,11 +68,9 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         _errorChannel.asFlow()
     }
 
-    private val _dataLiveDelegate = lazy {
-        handle.getLiveData<DATA>(KEY_DATA + usedKeyPostfix)
+    private val _dataLive by lazy {
+        handle?.getLiveData<DATA>(KEY_DATA + usedKeyPostfix) ?: MutableLiveData()
     }
-
-    private val _dataLive by _dataLiveDelegate
 
     override val dataLive: LiveData<DATA> by lazy {
         _dataLive.distinctUntilChanged()
@@ -91,57 +86,95 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         _dataChannel.asFlow()
     }
 
+    private val _requestStatusLive by lazy {
+        handle?.getLiveData<RequestStatus>(KEY_REQUEST_STATUS + usedKeyPostfix) ?: MutableLiveData()
+    }
+
+    override val requestStatusLive: LiveData<RequestStatus> by lazy {
+        _requestStatusLive.distinctUntilChanged()
+    }
+
+    private val _requestStatusChannelDelegate = lazy {
+        BroadcastChannel<RequestStatus>(1)
+    }
+
+    private val _requestStatusChannel by _requestStatusChannelDelegate
+
+    override val requestStatusFlow: Flow<RequestStatus> by lazy {
+        _requestStatusChannel.asFlow()
+    }
+
 
     private var retryBlock: (CoroutineScope.() -> Unit)? = null
 
     @MainThread
     private fun setBusyState(busyState: Boolean) {
-        if (_busyStateLiveDelegate.isInitialized()) {
-            _busyStateLive.value = busyState
-        }
+        _busyStateLive.value = busyState
         if (_busyStateChannelDelegate.isInitialized()) {
             _busyStateChannel.offer(busyState)
+        }
+        if (busyState) {
+            setRequestStatus(RequestStatus.Loading)
         }
     }
 
     @MainThread
     private fun setError(error: Throwable) {
-        if (_errorLiveDelegate.isInitialized()) {
-            _errorLive.value = error
-        }
+        _errorLive.value = error
         if (_errorChannelDelegate.isInitialized()) {
             _errorChannel.offer(error)
         }
+        setRequestStatus(RequestStatus.Error(error))
     }
 
     @MainThread
     private fun setData(data: DATA) {
-        if (_dataLiveDelegate.isInitialized()) {
-            _dataLive.value = data
-        }
+        _dataLive.value = data
         if (_dataChannelDelegate.isInitialized()) {
             _dataChannel.offer(data)
         }
+        setRequestStatus(RequestStatus.Success(data))
     }
 
+    @MainThread
+    private fun setRequestStatus(requestStatus: RequestStatus) {
+        _requestStatusLive.value = requestStatus
+        if (_requestStatusChannelDelegate.isInitialized()) {
+            _requestStatusChannel.offer(requestStatus)
+        }
+    }
 
     @MainThread
     @Synchronized
-    override suspend fun doChangeBusyState(busyState: Boolean) {
+    override  fun doChangeBusyState(busyState: Boolean) {
         setBusyState(busyState)
     }
 
-    @MainThread
-    @Synchronized
-    override suspend fun doChangeData(newData: DATA) {
-        setData(newData)
-    }
+    override fun getCurrentBusyState(): Boolean = _busyStateLive.value ?: false
 
     @MainThread
     @Synchronized
-    override suspend fun doChangeError(error: Throwable) {
+    override  fun doChangeData(newData: DATA) {
+        setData(newData)
+    }
+
+    override fun getCurrentData(): DATA? = _dataLive.value
+
+    @MainThread
+    @Synchronized
+    override  fun doChangeError(error: Throwable) {
         setError(error)
     }
+
+    override fun getCurrentError(): Throwable? = _errorLive.value
+
+    @MainThread
+    @Synchronized
+    override  fun doChangeRequestStatus(requestStatus: RequestStatus) {
+        setRequestStatus(requestStatus)
+    }
+
+    override fun getCurrentRequestStatus(): RequestStatus? = _requestStatusLive.value
 
     private suspend fun Flow<DATA>.dealFlowResult() {
         onStart {

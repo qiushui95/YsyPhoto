@@ -38,7 +38,7 @@ class ItemNotLoginFullView(context: Context) : ConstraintLayout(context) {
         lottieItemNotLogin.cancelAnimation()
     }
 
-    @TextProp
+    @TextProp(defaultRes = R.string.string_item_not_login_tip_default)
     fun setLoginTip(tip: CharSequence) {
         tvItemNotLoginTip.text = tip
     }

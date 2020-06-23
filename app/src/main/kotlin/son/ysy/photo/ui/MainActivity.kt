@@ -3,7 +3,6 @@ package son.ysy.photo.ui
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.BarUtils
-import com.blankj.utilcode.util.LogUtils
 import com.lxj.xpopup.XPopup
 import me.yangcx.base.activities.BaseActivity
 import me.yangcx.base.annotations.BindLayoutRes
@@ -16,11 +15,7 @@ class MainActivity : BaseActivity() {
 
     private val loginDialog by lazy {
         XPopup.Builder(this)
-            .asCustom(LoginBottomDialog(this) {
-                lifecycleScope.launchWhenResumed {
-                    LoginStatusData.loginIn(it)
-                }
-            })
+            .asCustom(LoginBottomDialog(this))
             .show()
     }
 

@@ -23,15 +23,6 @@
         app:layout_constraintWidth_percent="0.25"
         tools:src="@tools:sample/avatars" />
 
-    <ImageView
-        android:id="@+id/btnItemHomeMineUserInfoSetting"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:adjustViewBounds="true"
-        android:padding="4dp"
-        android:src="@drawable/ic_home_mine_setting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvItemHomeMineUserInfoPhone"
@@ -45,7 +36,7 @@
         android:textColor="@color/colorFF333333"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/tvItemHomeMineUserInfoRelationship"
-        app:layout_constraintEnd_toStartOf="@id/btnItemHomeMineUserInfoSetting"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivItemHomeMineUserInfoAvatar"
         app:layout_constraintTop_toTopOf="@id/ivItemHomeMineUserInfoAvatar"
         tools:text="135****7567" />

@@ -9,6 +9,7 @@ import org.koin.core.inject
 import retrofit2.HttpException
 import son.ysy.photo.entities.response.ResponseErrorInfo
 import son.ysy.photo.exceptions.ResponseException
+import son.ysy.photo.exceptions.ResponseLoginException
 import son.ysy.photo.exceptions.ResponseTokenException
 
 abstract class BaseRepository : KoinComponent {
@@ -31,6 +32,7 @@ abstract class BaseRepository : KoinComponent {
                     }?.run {
                         when (code) {
                             in 700..701 -> ResponseTokenException(code, message)
+                            in 710..711 -> ResponseLoginException(code, message)
                             else -> ResponseException(code, message)
 
                         }
