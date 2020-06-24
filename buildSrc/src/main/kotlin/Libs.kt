@@ -41,6 +41,9 @@ object Libs {
 
         //弹窗框架
         const val popup = "com.lxj:xpopup:2.0.2"
+
+        //图片取色器
+        const val palette="androidx.palette:palette:1.0.0"
     }
 
     object Group {
@@ -56,7 +59,7 @@ object Libs {
             const val viewPager2 = "androidx.viewpager2:viewpager2:1.1.0-alpha01"
 
             //约束布局
-            const val constraint = "androidx.constraintlayout:constraintlayout:2.0.0-beta6"
+            const val constraint = "androidx.constraintlayout:constraintlayout:2.0.0-beta7"
 
             //RecyclerView
             const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha03"

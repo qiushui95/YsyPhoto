@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/uploadSelectFragment">
     <fragment
         android:id="@+id/splashFragment"
         android:name="son.ysy.photo.ui.splash.SplashFragment"
         android:label="启动页"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/toHome"
             app:destination="@id/homeHomeFragment"
@@ -21,5 +21,11 @@
         android:name="son.ysy.photo.ui.home.HomeFragment"
         android:label="主页"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/uploadSelectFragment"
+        android:name="son.ysy.photo.ui.upload.select.UploadSelectFragment"
+        android:label="上传图片选择页"
+        tools:layout="@layout/fragment_upload_select" />
 
 </navigation>

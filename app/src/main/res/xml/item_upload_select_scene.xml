@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@+id/ivItemUploadSelect"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            app:layout_constraintBottom_toBottomOf="@id/bgItemUploadSelect"
+            app:layout_constraintEnd_toEndOf="@id/bgItemUploadSelect"
+            app:layout_constraintStart_toStartOf="@id/bgItemUploadSelect"
+            app:layout_constraintTop_toTopOf="@id/bgItemUploadSelect"
+            app:layout_constraintWidth_percent="1" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/ivItemUploadSelect"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:layout_constraintBottom_toBottomOf="@id/bgItemUploadSelect"
+            app:layout_constraintEnd_toEndOf="@id/bgItemUploadSelect"
+            app:layout_constraintStart_toStartOf="@id/bgItemUploadSelect"
+            app:layout_constraintTop_toTopOf="@id/bgItemUploadSelect"
+            app:layout_constraintWidth_percent="1" />
+
+        <Constraint
+            android:id="@+id/tvItemUploadSelectPosition"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="1"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:layout_constraintBottom_toBottomOf="@id/ivItemUploadSelect"
+            app:layout_constraintEnd_toEndOf="@id/ivItemUploadSelect"
+            app:layout_constraintStart_toStartOf="@id/ivItemUploadSelect"
+            app:layout_constraintTop_toTopOf="@id/ivItemUploadSelect" />
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="500" />
+</MotionScene>

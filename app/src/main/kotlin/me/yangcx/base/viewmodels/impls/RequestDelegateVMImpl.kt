@@ -10,7 +10,10 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.*
 import me.yangcx.base.entities.RequestStatus
+import me.yangcx.base.parcelables.ParcelableList
 import me.yangcx.base.viewmodels.delegates.RequestDelegateVM
+
+typealias RequestListDelegateVMImpl<DATA> = RequestDelegateVMImpl<ParcelableList<DATA>>
 
 class RequestDelegateVMImpl<DATA : Parcelable>(
     handle: SavedStateHandle?,
@@ -37,6 +40,10 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
     }
 
     override val busyStateLive: LiveData<Boolean> by lazy {
+        _busyStateLive
+    }
+
+    override val busyStateLiveDistinct: LiveData<Boolean> by lazy {
         _busyStateLive.distinctUntilChanged()
     }
 
@@ -58,6 +65,10 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         _errorLive
     }
 
+    override val errorLiveDistinct: LiveData<Throwable> by lazy {
+        _errorLive.distinctUntilChanged()
+    }
+
     private val _errorChannelDelegate = lazy {
         BroadcastChannel<Throwable>(1)
     }
@@ -73,6 +84,10 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
     }
 
     override val dataLive: LiveData<DATA> by lazy {
+        _dataLive
+    }
+
+    override val dataLiveDistinct: LiveData<DATA> by lazy {
         _dataLive.distinctUntilChanged()
     }
 
@@ -91,6 +106,10 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
     }
 
     override val requestStatusLive: LiveData<RequestStatus> by lazy {
+        _requestStatusLive
+    }
+
+    override val requestStatusLiveDistinct: LiveData<RequestStatus> by lazy {
         _requestStatusLive.distinctUntilChanged()
     }
 
@@ -146,7 +165,7 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
 
     @MainThread
     @Synchronized
-    override  fun doChangeBusyState(busyState: Boolean) {
+    override fun doChangeBusyState(busyState: Boolean) {
         setBusyState(busyState)
     }
 
@@ -154,7 +173,7 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
 
     @MainThread
     @Synchronized
-    override  fun doChangeData(newData: DATA) {
+    override fun doChangeData(newData: DATA) {
         setData(newData)
     }
 
@@ -162,7 +181,7 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
 
     @MainThread
     @Synchronized
-    override  fun doChangeError(error: Throwable) {
+    override fun doChangeError(error: Throwable) {
         setError(error)
     }
 
@@ -170,7 +189,7 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
 
     @MainThread
     @Synchronized
-    override  fun doChangeRequestStatus(requestStatus: RequestStatus) {
+    override fun doChangeRequestStatus(requestStatus: RequestStatus) {
         setRequestStatus(requestStatus)
     }
 
