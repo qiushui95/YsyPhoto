@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="YsyTitleView">
+        <attr name="android:background" format="color|reference" />
+        <attr name="android:text" format="string|reference" />
+        <attr name="android:textSize" format="dimension|reference" />
+        <attr name="android:textColor" format="dimension|reference" />
+        <attr name="android:fitsSystemWindows" format="boolean" />
+        <attr name="title_height" format="dimension|reference" />
+    </declare-styleable>
+</resources>

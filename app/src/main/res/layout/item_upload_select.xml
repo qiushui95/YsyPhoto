@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/item_upload_select_scene"
-    tools:context=".ui.upload.select.ItemUploadImageView">
+    tools:context=".ui.upload.select.ItemUploadImageView"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <View
         android:id="@+id/bgItemUploadSelect"
@@ -39,13 +39,11 @@
         android:alpha="0"
         android:background="#80000000"
         android:gravity="center"
-        android:scaleX="1"
-        android:scaleY="1"
         android:textColor="@color/colorFFFFFFFF"
-        android:textSize="64sp"
+        android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="@id/ivItemUploadSelect"
         app:layout_constraintEnd_toEndOf="@id/ivItemUploadSelect"
         app:layout_constraintStart_toStartOf="@id/ivItemUploadSelect"
         app:layout_constraintTop_toTopOf="@id/ivItemUploadSelect"
         tools:text="1" />
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</merge>

@@ -46,7 +46,6 @@ class UploadSelectFragment : BaseFragment() {
             .dataLive
             .observeViewLifecycle(this) {
                 buildModelJob.cancelChildren()
-                rvUploadSelect.clear()
                 lifecycleScope.launchWhenResumed {
                     withContext(Dispatchers.IO + buildModelJob) {
                         it.value
