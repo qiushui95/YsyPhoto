@@ -38,8 +38,15 @@
     <string name="string_dialog_bottom_login_phone_format_error">手机号格式错误,请检查</string>
     <!--    dialog bottom login end-->
 
+    <!--    home mine start-->
     <string name="string_home_mine_button_album">我的相册</string>
     <string name="string_home_mine_button_upload">立即上传</string>
     <string name="string_home_mine_button_share">分享</string>
     <string name="string_home_mine_button_logout">退出账号</string>
+    <!--    home mine end-->
+
+    <!--    upload select start-->
+    <string name="string_upload_select_title">选择上传图片</string>
+    <string name="string_upload_select_continue_format">上传%d张</string>
+    <!--    upload select end-->
 </resources>

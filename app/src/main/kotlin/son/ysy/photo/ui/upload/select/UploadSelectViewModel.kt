@@ -1,8 +1,12 @@
 package son.ysy.photo.ui.upload.select
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import me.yangcx.base.alias.LiveListData
+import me.yangcx.base.alias.MutableLiveListData
 import me.yangcx.base.ext.parcelable
 import me.yangcx.base.viewmodels.BaseViewModel
 import me.yangcx.base.viewmodels.impls.RequestListDelegateVMImpl
@@ -14,16 +18,26 @@ class UploadSelectViewModel(handle: SavedStateHandle) : BaseViewModel() {
 
     private val localImageRepository by inject<LocalImageRepository>()
 
-    private val selectedIdList by lazy {
-        mutableListOf<String>()
-    }
-
     val imageFetchDelegate by lazy {
         RequestListDelegateVMImpl<ImageInfo>(
             handle,
             cancelBeforeRequest = true,
             waitForBeforeFinish = true
         )
+    }
+
+    private val _selectedList by lazy {
+        MutableLiveListData<ImageInfo>(emptyList())
+    }
+
+    val selectedList: LiveListData<ImageInfo> by lazy {
+        _selectedList.distinctUntilChanged()
+    }
+
+    val selectedCount by lazy {
+        _selectedList.map {
+            it.size
+        }.distinctUntilChanged()
     }
 
     fun startFetchImage() {
@@ -35,15 +49,20 @@ class UploadSelectViewModel(handle: SavedStateHandle) : BaseViewModel() {
     }
 
     fun toggleSelect(imageId: String) {
-        if (selectedIdList.contains(imageId)) {
-            selectedIdList.remove(imageId)
+        val allList = imageFetchDelegate.getCurrentData()?.value ?: emptyList()
+        val imageInfo = allList.firstOrNull {
+            it.id == imageId
+        } ?: return
+        val currentList = (_selectedList.value ?: emptyList()).toMutableList()
+        if (currentList.contains(imageInfo)) {
+            currentList.remove(imageInfo)
         } else {
-            selectedIdList.add(imageId)
+            currentList.add(imageInfo)
         }
-        imageFetchDelegate.doChangeData(
-            imageFetchDelegate.getCurrentData() ?: emptyList<ImageInfo>().parcelable()
-        )
+        imageFetchDelegate.doChangeData(allList.parcelable())
+        _selectedList.value = currentList
     }
 
-    fun getSelectIndex(imageInfo: ImageInfo) = selectedIdList.indexOf(imageInfo.id)
+    fun getSelectIndex(imageInfo: ImageInfo) =
+        (_selectedList.value ?: emptyList()).indexOf(imageInfo)
 }

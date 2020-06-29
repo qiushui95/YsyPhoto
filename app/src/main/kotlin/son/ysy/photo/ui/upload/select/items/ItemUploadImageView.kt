@@ -1,4 +1,4 @@
-package son.ysy.photo.ui.upload.select
+package son.ysy.photo.ui.upload.select.items
 
 import android.content.Context
 import android.net.Uri
@@ -74,8 +74,12 @@ class ItemUploadImageView(context: Context) : MotionLayout(context) {
                 }
                 val endConstraintSet = ConstraintSet().apply {
                     clone(originConstraintSet)
-                    setScaleX(R.id.ivItemUploadSelect, SCALE_SMALL)
-                    setScaleY(R.id.ivItemUploadSelect, SCALE_SMALL)
+                    setScaleX(R.id.ivItemUploadSelect,
+                        SCALE_SMALL
+                    )
+                    setScaleY(R.id.ivItemUploadSelect,
+                        SCALE_SMALL
+                    )
                     setAlpha(R.id.tvItemUploadSelectPosition, 1f)
                 }
                 setConstraintSet(ANIMATION_ID_START, startConstraintSet)
@@ -84,7 +88,10 @@ class ItemUploadImageView(context: Context) : MotionLayout(context) {
             .apply {
                 setScene(this)
             }
-        setTransition(ANIMATION_ID_START, ANIMATION_ID_END)
+        setTransition(
+            ANIMATION_ID_START,
+            ANIMATION_ID_END
+        )
     }
 
     override fun onAttachedToWindow() {

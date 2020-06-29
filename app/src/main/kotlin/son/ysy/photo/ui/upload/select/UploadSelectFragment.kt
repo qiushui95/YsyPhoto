@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.android.synthetic.main.fragment_upload_select.*
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,8 @@ import me.yangcx.base.ext.observeViewLifecycle
 import me.yangcx.base.fragments.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import son.ysy.photo.R
+import son.ysy.photo.ui.upload.select.items.ItemUploadImageDisplayHorizontalViewModel_
+import son.ysy.photo.ui.upload.select.items.ItemUploadImageViewModel_
 
 @BindLayoutRes(R.layout.fragment_upload_select)
 class UploadSelectFragment : BaseFragment() {
@@ -64,10 +67,33 @@ class UploadSelectFragment : BaseFragment() {
                     }
                 }
             }
+        viewModel.selectedCount
+            .observeViewLifecycle(this) {
+                btnUploadSelectContinue.text = StringUtils.getString(
+                    R.string.string_upload_select_continue_format,
+                    it
+                )
+                btnUploadSelectContinue.isEnabled = it > 0
+            }
+        viewModel.selectedList
+            .observeViewLifecycle(this) {
+                lifecycleScope.launchWhenResumed {
+                    withContext(Dispatchers.IO + buildModelJob) {
+                        it.map { imageInfo ->
+                            ItemUploadImageDisplayHorizontalViewModel_().apply {
+                                id(javaClass.name, imageInfo.id)
+                                imageUri(imageInfo.uri)
+                                imageId(imageInfo.id)
+                            }
+                        }
+                    }.apply {
+                        rvUploadDisplay.setModels(this)
+                    }
+                }
+            }
     }
 
     private fun loadLocalImage() {
         viewModel.startFetchImage()
     }
-
 }

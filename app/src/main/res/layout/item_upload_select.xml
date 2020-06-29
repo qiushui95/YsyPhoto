@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.upload.select.ItemUploadImageView"
+    tools:context=".ui.upload.select.items.ItemUploadImageView"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <View
