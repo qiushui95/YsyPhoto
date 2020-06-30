@@ -11,7 +11,6 @@ import son.ysy.photo.entities.response.ResponseLoginResult
 import son.ysy.photo.repositories.LoginRepository
 
 object LoginStatusData : KoinComponent {
-    private const val KEY_LOGIN_RESULT = "loginResult"
 
     private val parentJob = SupervisorJob()
 

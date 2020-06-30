@@ -60,6 +60,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packagingOptions{
+        this.pickFirst("META-INF/library_release.kotlin_module")
+    }
 }
 
 dependencies {
@@ -92,7 +96,7 @@ dependencies {
     implementation(Libs.Group.Lifecycle.liveDataKtx)
     implementation(Libs.Group.Lifecycle.viewModel)
     //图片加载
-    implementation(Libs.Group.Coil.core)
+    implementation(Libs.Group.Glide.core)
     //epoxy
     implementation(Libs.Group.Epoxy.core)
     implementation(Libs.Group.View.recyclerview)
@@ -145,7 +149,8 @@ dependencies {
     implementation(Libs.Group.View.realTimeBlurView)
     //弹窗框架
     implementation(Libs.Single.popup)
-
+    //颜色帮助库
+    implementation(Libs.Single.colorKtx)
 
     testImplementation("junit:junit:4.13")
     androidTestImplementation("androidx.test.ext:junit:1.1.1")

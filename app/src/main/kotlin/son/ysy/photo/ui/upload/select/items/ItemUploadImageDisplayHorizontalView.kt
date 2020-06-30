@@ -4,12 +4,12 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import coil.api.load
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import kotlinx.android.synthetic.main.item_upload_select_display_horizontal.view.*
 import me.yangcx.base.ext.click
+import me.yangcx.base.ext.load
 import son.ysy.photo.R
 
 @ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_MATCH_HEIGHT, fullSpan = false)

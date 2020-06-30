@@ -3,48 +3,37 @@ package son.ysy.photo.ui.upload.select.items
 import android.content.Context
 import android.net.Uri
 import android.view.View
-import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.constraintlayout.motion.widget.MotionScene
-import androidx.constraintlayout.widget.ConstraintSet
-import coil.api.load
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.paris.annotations.Styleable
 import kotlinx.android.synthetic.main.item_upload_select.view.*
 import me.yangcx.base.ext.click
+import me.yangcx.base.ext.load
 import son.ysy.photo.R
 
 @Styleable
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT, fullSpan = false)
-class ItemUploadImageView(context: Context) : MotionLayout(context) {
+class ItemUploadImageView(context: Context) : ConstraintLayout(context) {
 
     companion object {
-        private const val SCALE_SMALL = 0.8f
-        private val ANIMATION_ID_START = View.generateViewId()
-        private val ANIMATION_ID_END = View.generateViewId()
-//        @Style(isDefault = true)
-//        val background = itemLoadingFullViewStyle {
-//            backgroundRes(R.color.colorFFFFFFFF)
-//        }
+        private const val ALPHA_LARGE = 1f
+        private const val ALPHA_SMALL = 0f
     }
 
-    private val originConstraintSet by lazy {
-        ConstraintSet().apply {
-            clone(this@ItemUploadImageView)
-        }
-    }
+    @ModelProp
+    lateinit var imageId: String
 
     init {
         View.inflate(context, R.layout.item_upload_select, this)
     }
 
     @ModelProp
-    lateinit var imageId: String
-
-    @ModelProp
     fun setImageUri(uri: Uri) {
-        ivItemUploadSelect.load(uri)
+        ivItemUploadSelect.load(uri) {
+            placeholder(R.mipmap.ic_launcher)
+        }
     }
 
     @ModelProp
@@ -52,50 +41,11 @@ class ItemUploadImageView(context: Context) : MotionLayout(context) {
         tvItemUploadSelectPosition.text = "".takeIf {
             index < 0
         } ?: (index + 1).toString()
-
-        if (index < 0) {
-            transitionToStart()
-        } else {
-            transitionToEnd()
-        }
+        tvItemUploadSelectPosition.alpha = ALPHA_SMALL.takeIf { index < 0 } ?: ALPHA_LARGE
     }
 
     @CallbackProp
     fun setClick(listener: OnClickListener?) {
         ivItemUploadSelect.click(duration = 0, listener = listener)
-    }
-
-    private fun resetMotionScene() {
-        MotionScene(this)
-            .apply {
-                duration = 500
-                val startConstraintSet = ConstraintSet().apply {
-                    clone(originConstraintSet)
-                }
-                val endConstraintSet = ConstraintSet().apply {
-                    clone(originConstraintSet)
-                    setScaleX(R.id.ivItemUploadSelect,
-                        SCALE_SMALL
-                    )
-                    setScaleY(R.id.ivItemUploadSelect,
-                        SCALE_SMALL
-                    )
-                    setAlpha(R.id.tvItemUploadSelectPosition, 1f)
-                }
-                setConstraintSet(ANIMATION_ID_START, startConstraintSet)
-                setConstraintSet(ANIMATION_ID_END, endConstraintSet)
-            }
-            .apply {
-                setScene(this)
-            }
-        setTransition(
-            ANIMATION_ID_START,
-            ANIMATION_ID_END
-        )
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        resetMotionScene()
     }
 }

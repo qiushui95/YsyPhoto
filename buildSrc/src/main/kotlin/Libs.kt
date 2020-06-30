@@ -40,10 +40,13 @@ object Libs {
         const val imageViewer = "com.github.iielse:imageviewer:2.0.13"
 
         //弹窗框架
-        const val popup = "com.lxj:xpopup:2.0.2"
+        const val popup = "com.lxj:xpopup:2.0.5"
 
         //图片取色器
-        const val palette="androidx.palette:palette:1.0.0"
+        const val palette = "androidx.palette:palette:1.0.0"
+
+        //颜色帮助库
+        const val colorKtx = "me.jorgecastillo:androidcolorx:0.2.0"
     }
 
     object Group {
@@ -163,8 +166,13 @@ object Libs {
         }
 
         //图片加载
-        object Coil {
-            const val core = "io.coil-kt:coil:0.11.0"
+        object Glide {
+            private const val version = "4.11.0"
+            const val core = "com.github.bumptech.glide:glide:$version"
+            const val compiler = "com.github.bumptech.glide:compiler:$version"
+            const val okHttp = "com.github.bumptech.glide:okhttp3-integration:$version"
+            const val annotation = "com.github.bumptech.glide:annotations:$version"
+            const val transformation = "jp.wasabeef:glide-transformations:4.1.0"
         }
 
         //RecyclerView Adapter便捷库

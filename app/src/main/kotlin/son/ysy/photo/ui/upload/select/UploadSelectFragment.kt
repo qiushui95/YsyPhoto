@@ -2,15 +2,16 @@ package son.ysy.photo.ui.upload.select
 
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.SimpleTransitionListener
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.constant.PermissionConstants
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.android.synthetic.main.fragment_upload_select.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.withContext
 import me.yangcx.base.annotations.BindLayoutRes
 import me.yangcx.base.ext.observeViewLifecycle
@@ -24,10 +25,6 @@ import son.ysy.photo.ui.upload.select.items.ItemUploadImageViewModel_
 class UploadSelectFragment : BaseFragment() {
 
     private val viewModel by stateViewModel<UploadSelectViewModel>()
-
-    private val buildModelJob by lazy {
-        SupervisorJob()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +42,19 @@ class UploadSelectFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mlUploadSelect.setTransitionListener(object : SimpleTransitionListener() {
+            override fun onTransitionCompleted(motionLayout: MotionLayout, stateId: Int) {
+                BarUtils.setStatusBarVisibility(
+                    requireActivity(),
+                    stateId == R.id.constraintSetUploadSelectStart
+                )
+            }
+        })
         viewModel.imageFetchDelegate
             .dataLive
             .observeViewLifecycle(this) {
-                buildModelJob.cancelChildren()
                 lifecycleScope.launchWhenResumed {
-                    withContext(Dispatchers.IO + buildModelJob) {
+                    withContext(Dispatchers.IO) {
                         it.value
                             .map { imageInfo ->
                                 ItemUploadImageViewModel_()
@@ -78,12 +82,18 @@ class UploadSelectFragment : BaseFragment() {
         viewModel.selectedList
             .observeViewLifecycle(this) {
                 lifecycleScope.launchWhenResumed {
-                    withContext(Dispatchers.IO + buildModelJob) {
+                    withContext(Dispatchers.IO) {
                         it.map { imageInfo ->
                             ItemUploadImageDisplayHorizontalViewModel_().apply {
                                 id(javaClass.name, imageInfo.id)
                                 imageUri(imageInfo.uri)
                                 imageId(imageInfo.id)
+                                click { model, _, _, _ ->
+                                    viewModel.getImageIndex(model.imageId())?.also { index ->
+                                        rvUploadSelect.smoothScrollToPosition(index)
+
+                                    }
+                                }
                             }
                         }
                     }.apply {

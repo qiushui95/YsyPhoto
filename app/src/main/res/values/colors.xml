@@ -10,5 +10,6 @@
     <color name="colorFF999999">#FF999999</color>
     <color name="colorFF333333">#FF333333</color>
     <color name="color00000000">#00000000</color>
+    <color name="color80000000">#80000000</color>
     <color name="colorFF8A8A8A">#FF8A8A8A</color>
 </resources>

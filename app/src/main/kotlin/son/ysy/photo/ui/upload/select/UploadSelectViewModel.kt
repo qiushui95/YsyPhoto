@@ -63,6 +63,12 @@ class UploadSelectViewModel(handle: SavedStateHandle) : BaseViewModel() {
         _selectedList.value = currentList
     }
 
-    fun getSelectIndex(imageInfo: ImageInfo) =
-        (_selectedList.value ?: emptyList()).indexOf(imageInfo)
+    fun getSelectIndex(
+        imageInfo: ImageInfo
+    ) = (_selectedList.value ?: emptyList()).indexOf(imageInfo)
+
+    fun getImageIndex(imageId: String) = imageFetchDelegate.getCurrentData()
+        ?.value
+        ?.indexOfFirst { it.id == imageId }
+        ?.takeUnless { it < 0 }
 }

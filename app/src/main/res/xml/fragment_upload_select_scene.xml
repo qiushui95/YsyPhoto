@@ -2,18 +2,36 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/start">
+    <ConstraintSet android:id="@+id/constraintSetUploadSelectStart">
         <Constraint android:id="@+id/rvUploadSelect" />
         <Constraint
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/ysyTitleView" />
+            android:id="@+id/ysyTitleView"
+            app:layout_constraintEnd_toEndOf="parent" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet android:id="@+id/constraintSetUploadSelectEnd">
         <Constraint android:id="@id/rvUploadSelect" />
+        <Constraint
+            android:id="@+id/titleUploadSelect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/bgUploadSelectBottom"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
     </ConstraintSet>
 
     <Transition
-        app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" />
+        app:constraintSetEnd="@id/constraintSetUploadSelectEnd"
+        app:constraintSetStart="@id/constraintSetUploadSelectStart">
+        <OnSwipe
+            app:moveWhenScrollAtTop="false"
+            app:touchAnchorId="@+id/rvUploadSelect" />
+    </Transition>
 </MotionScene>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mlUploadSelect"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_upload_select_scene"
     tools:context=".ui.upload.select.UploadSelectFragment">
 
     <com.airbnb.epoxy.EpoxyRecyclerView
@@ -12,11 +14,11 @@
         android:layout_height="0dp"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bgUploadSelectBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleUploadSelect"
-        app:spanCount="3" />
+        app:spanCount="4" />
 
     <me.yangcx.base.widgets.YsyTitleView
         android:id="@+id/titleUploadSelect"
@@ -60,4 +62,5 @@
         app:layout_constraintEnd_toStartOf="@id/btnUploadSelectContinue"
         app:layout_constraintStart_toStartOf="@id/bgUploadSelectBottom"
         app:layout_constraintTop_toTopOf="@id/btnUploadSelectContinue" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
