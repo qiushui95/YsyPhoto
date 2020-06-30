@@ -4,27 +4,32 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_home_mine.*
 import me.yangcx.base.annotations.BindLayoutRes
 import me.yangcx.base.entities.RequestStatus
 import me.yangcx.base.ext.observeViewLifecycle
 import me.yangcx.base.fragments.BaseFragment
+import me.yangcx.base.others.appViewModel
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import son.ysy.photo.R
-import son.ysy.photo.data.LoginStatusData
 import son.ysy.photo.entities.response.ResponseLoginResult
 import son.ysy.photo.entities.response.ResponseUserInfo
 import son.ysy.photo.entities.ui.HomeMineButtonConfig
 import son.ysy.photo.exceptions.ResponseTokenException
 import son.ysy.photo.ext.getShowMessage
 import son.ysy.photo.ui.MainActivity
+import son.ysy.photo.ui.home.HomeFragmentDirections
 import son.ysy.photo.ui.items.itemErrorFullView
 import son.ysy.photo.ui.items.itemLoadingFullView
 import son.ysy.photo.ui.items.itemNotLoginFullView
+import son.ysy.photo.viewmodels.LoginGlobalViewModel
 
 @BindLayoutRes(R.layout.fragment_home_mine)
 class HomeMineFragment : BaseFragment() {
     private val viewModel by stateViewModel<HomeMineViewModel>()
+
+    private val loginViewModel by appViewModel<LoginGlobalViewModel>()
 
     private lateinit var userInfoObserver: Observer<RequestStatus>
 
@@ -59,7 +64,7 @@ class HomeMineFragment : BaseFragment() {
     }
 
     private fun bindViewModel() {
-        LoginStatusData.loginCheckDelegate
+        loginViewModel.loginCheckDelegate
             .requestStatusLive
             .observeViewLifecycle(this) {
                 dealCheckRequestStatus(it)
@@ -87,7 +92,7 @@ class HomeMineFragment : BaseFragment() {
                 removeUserInfoObserver()
                 buildErrorItem(requestStatus.error) {
                     lifecycleScope.launchWhenResumed {
-                        LoginStatusData.loginCheckDelegate.retry()
+                        loginViewModel.loginCheckDelegate.retry()
                     }
                 }
             }
@@ -114,6 +119,13 @@ class HomeMineFragment : BaseFragment() {
                                     iconRes(buttonConfig.iconRes)
                                     tipRes(buttonConfig.tipRes)
                                     marginTop(buttonConfig.marginTopDp)
+                                    click { model, _, _, _ ->
+                                        when (model.iconRes()) {
+                                            R.drawable.ic_home_mine_upload -> {
+                                                findNavController().navigate(HomeFragmentDirections.toSelectUpload())
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -170,98 +182,4 @@ class HomeMineFragment : BaseFragment() {
 
         }
     }
-
-//    private fun dealLoginBusy(loginBusy: Boolean) {
-//        if (loginBusy) {
-//            if (this::loginStatusObserver.isInitialized) {
-//                LoginStatusData.loginStatus.removeObserver(loginStatusObserver)
-//            }
-//            rvHomeMine.withModels {
-//                itemLoadingFullView {
-//                    id(0)
-//                    loadingMessage(R.string.string_common_loading)
-//                }
-//            }
-//        } else {
-//            rvHomeMine.clear()
-//            val error = LoginStatusData.getError()
-//            if (error != null) {
-//                rvHomeMine.withModels {
-//                    if (error is ResponseTokenException || error is ResponseLoginException) {
-//                        itemNotLoginFullView {
-//                            id(0)
-//                            loginTip(error.getShowMessage())
-//                            loginClick {
-//                                (activity as? MainActivity)?.showLoginDialog()
-//                            }
-//                        }
-//                    } else {
-//                        itemErrorFullView {
-//                            id(0)
-//                            errorMessage(error.getShowMessage())
-//                            retryClick {
-//                                lifecycleScope.launchWhenResumed {
-//                                    LoginStatusData.checkLoginResult()
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (this@HomeMineFragment::loginStatusObserver.isInitialized) {
-//                        LoginStatusData.loginStatus.removeObserver(loginStatusObserver)
-//                    }
-//                }
-//            } else {
-//                rvHomeMine.clear()
-//                LoginStatusData.loginStatus
-//                    .observeViewLifecycle(this) {
-//                        if (it) {
-//                            viewModel.refreshData()
-//                            userInfoObserver = viewModel.userInfoGetDelegate
-//                                .dataLive
-//                                .observeViewLifecycle(this) {
-//                                    userInfoObserver = viewModel.userInfoGetDelegate
-//                                        .dataLive
-//                                        .observeViewLifecycle(this) { userInfo ->
-//                                            rvHomeMine
-//                                                .withModels {
-//                                                    itemHomeMineUserInfoView {
-//                                                        id(javaClass.name, userInfo.phone)
-//                                                        avatarUrl(userInfo.avatarUrl)
-//                                                        phone(userInfo.phone)
-//                                                        relationship(userInfo.relationShip)
-//                                                    }
-//                                                    buttonConfigList.forEach { buttonConfig ->
-//                                                        itemHomeMineButtonView {
-//                                                            id(buttonConfig.iconRes)
-//                                                            iconRes(buttonConfig.iconRes)
-//                                                            tipRes(buttonConfig.tipRes)
-//                                                            styleBuilder { style ->
-//                                                                style.addBackground()
-//                                                                style.layoutMarginTopDp(buttonConfig.marginTopDp)
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                }
-//                                        }
-//                                }
-//                        } else {
-//                            rvHomeMine.withModels {
-//                                if (this@HomeMineFragment::userInfoObserver.isInitialized) {
-//                                    viewModel.userInfoGetDelegate
-//                                        .dataLive
-//                                        .removeObserver(userInfoObserver)
-//                                }
-//                                itemNotLoginFullView {
-//                                    id(0)
-//                                    loginTip(R.string.string_item_not_login_tip_default)
-//                                    loginClick {
-//                                        (activity as? MainActivity)?.showLoginDialog()
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//            }
-//        }
-//    }
 }

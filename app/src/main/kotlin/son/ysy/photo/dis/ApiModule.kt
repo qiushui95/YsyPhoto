@@ -3,6 +3,7 @@ package son.ysy.photo.dis
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import son.ysy.photo.apis.LoginApi
+import son.ysy.photo.apis.UploadApi
 import son.ysy.photo.apis.UserInfoApi
 
 object ApiModule {
@@ -13,6 +14,9 @@ object ApiModule {
             }
             single {
                 get<Retrofit>().create(UserInfoApi::class.java)
+            }
+            single {
+                get<Retrofit>().create(UploadApi::class.java)
             }
         }
     }

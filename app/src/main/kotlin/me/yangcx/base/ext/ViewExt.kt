@@ -39,3 +39,15 @@ fun View.click(vararg otherView: View, duration: Int = 1000, listener: View.OnCl
         ClickUtils.applySingleDebouncing(views, duration.toLong(), listener)
     }
 }
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
+fun View.visible() {
+    visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.SimpleTransitionListener
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.PermissionUtils
@@ -14,7 +15,9 @@ import kotlinx.android.synthetic.main.fragment_upload_select.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.yangcx.base.annotations.BindLayoutRes
+import me.yangcx.base.ext.click
 import me.yangcx.base.ext.observeViewLifecycle
+import me.yangcx.base.ext.toArray
 import me.yangcx.base.fragments.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import son.ysy.photo.R
@@ -42,6 +45,17 @@ class UploadSelectFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        btnUploadSelectContinue.click {
+            viewModel.selectedList
+                .value
+                ?.apply {
+                    findNavController().navigate(
+                        UploadSelectFragmentDirections.toApplyUpload(
+                            toArray()
+                        )
+                    )
+                }
+        }
         mlUploadSelect.setTransitionListener(object : SimpleTransitionListener() {
             override fun onTransitionCompleted(motionLayout: MotionLayout, stateId: Int) {
                 BarUtils.setStatusBarVisibility(

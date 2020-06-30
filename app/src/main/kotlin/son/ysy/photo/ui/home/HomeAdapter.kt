@@ -7,7 +7,9 @@ import son.ysy.photo.ui.index.HomeIndexFragment
 import son.ysy.photo.ui.mine.HomeMineFragment
 import son.ysy.photo.ui.record.HomeRecordFragment
 
-class HomeAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class HomeAdapter(
+    fragment: Fragment
+) : FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {
     override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int) = when (position) {

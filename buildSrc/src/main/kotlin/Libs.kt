@@ -127,12 +127,13 @@ object Libs {
         }
 
         object Lifecycle {
-            private const val version = "2.3.0-alpha03"
+            private const val version = "2.3.0-alpha05"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
             const val common = "androidx.lifecycle:lifecycle-common:$version"
             const val liveDataCore = "androidx.lifecycle:lifecycle-livedata-core-ktx:$version"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
+            const val process = "androidx.lifecycle:lifecycle-process:$version"
             const val service = "androidx.lifecycle:lifecycle-service:$version"
         }
 

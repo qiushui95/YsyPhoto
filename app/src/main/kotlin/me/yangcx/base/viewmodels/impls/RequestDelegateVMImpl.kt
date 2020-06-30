@@ -17,8 +17,9 @@ typealias RequestListDelegateVMImpl<DATA> = RequestDelegateVMImpl<ParcelableList
 
 class RequestDelegateVMImpl<DATA : Parcelable>(
     handle: SavedStateHandle?,
-    private val cancelBeforeRequest: Boolean,
-    private val waitForBeforeFinish: Boolean,
+    private val cancelCurrentIfBusy: Boolean = true,
+    private val cancelBeforeRequest: Boolean = false,
+    private val waitForBeforeFinish: Boolean = true,
     private val requestParentJob: Job = SupervisorJob(),
     keyPostfix: String = ""
 ) : RequestDelegateVM<DATA> {
@@ -124,7 +125,7 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
     }
 
 
-    private var retryBlock: (CoroutineScope.() -> Unit)? = null
+    private var retryBlock: (() -> Unit)? = null
 
     @MainThread
     private fun setBusyState(busyState: Boolean) {
@@ -221,15 +222,16 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
         }
     }
 
-    override suspend fun retry() {
-        coroutineScope {
-            retryBlock?.invoke(this)
-        }
+    override fun retry() {
+        retryBlock?.invoke()
     }
 
-    override suspend fun doRequest(flowCreator: () -> Flow<DATA>) {
+    override fun doRequest(coroutineScope: CoroutineScope, flowCreator: () -> Flow<DATA>) {
         retryBlock = {
-            launch {
+            coroutineScope.launch {
+                if (cancelCurrentIfBusy && requestParentJob.children.count() > 0) {
+                    return@launch
+                }
                 beforeRequest()
                 launch(Dispatchers.Main + requestParentJob) {
                     withContext(Dispatchers.IO) {
@@ -239,8 +241,6 @@ class RequestDelegateVMImpl<DATA : Parcelable>(
                 }
             }
         }
-        coroutineScope {
-            retryBlock?.invoke(this)
-        }
+            retryBlock?.invoke()
     }
 }

@@ -27,7 +27,7 @@ class ItemLoadingFullView(context: Context) : ConstraintLayout(context) {
         View.inflate(context, R.layout.item_loading_full, this)
     }
 
-    @TextProp(defaultRes = R.string.string_common_loading)
+    @TextProp
     fun setLoadingMessage(loadingMessage: CharSequence) {
         tvItemLoadingFullTip.text = loadingMessage
     }

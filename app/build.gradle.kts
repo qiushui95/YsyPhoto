@@ -95,6 +95,7 @@ dependencies {
     implementation(Libs.Group.Lifecycle.runtime)
     implementation(Libs.Group.Lifecycle.liveDataKtx)
     implementation(Libs.Group.Lifecycle.viewModel)
+    implementation(Libs.Group.Lifecycle.process)
     //图片加载
     implementation(Libs.Group.Glide.core)
     //epoxy

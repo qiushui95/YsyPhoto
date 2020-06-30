@@ -16,9 +16,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.yangcx.base.ext.click
+import me.yangcx.base.others.appViewModel
 import son.ysy.photo.R
-import son.ysy.photo.data.LoginStatusData
 import son.ysy.photo.ext.getShowMessage
+import son.ysy.photo.viewmodels.LoginGlobalViewModel
 
 class LoginBottomDialog(context: Context) : BottomPopupView(context) {
     private val lottieJob by lazy {
@@ -27,6 +28,8 @@ class LoginBottomDialog(context: Context) : BottomPopupView(context) {
     private val lifecycleOwner by lazy {
         context as LifecycleOwner
     }
+
+    private val viewModel by appViewModel<LoginGlobalViewModel>()
 
     override fun getImplLayoutId(): Int {
         return R.layout.dialog_bottom_login
@@ -43,13 +46,10 @@ class LoginBottomDialog(context: Context) : BottomPopupView(context) {
             if (!RegexUtils.isMobileExact(phoneInput)) {
                 ToastUtils.showShort(R.string.string_dialog_bottom_login_phone_format_error)
             } else {
-                lifecycleOwner.lifecycleScope
-                    .launchWhenResumed {
-                        LoginStatusData.loginIn(phoneInput)
-                    }
+                viewModel.loginIn(phoneInput)
             }
         }
-        LoginStatusData.loginDelegate
+        viewModel.loginDelegate
             .busyStateLive
             .observe(lifecycleOwner) {
                 if (it) {
@@ -71,14 +71,14 @@ class LoginBottomDialog(context: Context) : BottomPopupView(context) {
         lifecycleOwner.lifecycleScope
             .launchWhenResumed {
                 launch {
-                    LoginStatusData.loginDelegate
+                    viewModel.loginDelegate
                         .dataFlow
                         .collect {
                             dismiss()
                         }
                 }
                 launch {
-                    LoginStatusData.loginDelegate
+                    viewModel.loginDelegate
                         .errorFlow
                         .collect {
                             ToastUtils.showShort(it.getShowMessage())

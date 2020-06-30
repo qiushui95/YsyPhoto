@@ -9,17 +9,18 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.paris.annotations.Style
 import com.airbnb.paris.annotations.Styleable
-import com.airbnb.paris.extensions.background
 import com.airbnb.paris.extensions.itemHomeMineButtonViewStyle
 import com.airbnb.paris.extensions.layoutHeightDp
 import com.airbnb.paris.extensions.layoutWidth
 import com.blankj.utilcode.util.ConvertUtils
 import com.noober.background.drawable.DrawableCreator
 import kotlinx.android.synthetic.main.item_home_mine_button.view.*
+import me.yangcx.base.ext.click
 import son.ysy.photo.R
 
 
@@ -28,13 +29,7 @@ import son.ysy.photo.R
 class ItemHomeMineButtonView(context: Context) : ConstraintLayout(context) {
     companion object {
         @Style(isDefault = true)
-        val background = itemHomeMineButtonViewStyle {
-            background(
-                DrawableCreator.Builder()
-                    .setSolidColor(Color.WHITE)
-                    .setRipple(true, Color.GRAY)
-                    .build()
-            )
+        val defaultHeight = itemHomeMineButtonViewStyle {
             layoutWidth(ViewGroup.LayoutParams.MATCH_PARENT)
             layoutHeightDp(48)
         }
@@ -42,6 +37,10 @@ class ItemHomeMineButtonView(context: Context) : ConstraintLayout(context) {
 
     init {
         View.inflate(context, R.layout.item_home_mine_button, this)
+        background = DrawableCreator.Builder()
+            .setSolidColor(Color.WHITE)
+            .setRipple(true, Color.GRAY)
+            .build()
     }
 
     @ModelProp
@@ -59,5 +58,10 @@ class ItemHomeMineButtonView(context: Context) : ConstraintLayout(context) {
         updateLayoutParams<MarginLayoutParams> {
             updateMargins(top = ConvertUtils.dp2px(marginTop * 1f))
         }
+    }
+
+    @CallbackProp
+    fun setClick(listener: OnClickListener?) {
+        click(listener = listener)
     }
 }

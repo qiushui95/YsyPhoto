@@ -31,7 +31,6 @@
     <string name="string_item_not_login_tip_default">未登录,请登录</string>
     <!--item not login end-->
 
-
     <!--    dialog bottom login start-->
     <string name="string_dialog_bottom_login_hint">输入手机号进行登录</string>
     <string name="string_dialog_bottom_login_btn_continue">登录</string>
@@ -49,4 +48,17 @@
     <string name="string_upload_select_title">选择上传图片</string>
     <string name="string_upload_select_continue_format">上传%d张</string>
     <!--    upload select end-->
+
+    <!--    upload apply start-->
+    <string name="string_upload_apply_title">上传图片</string>
+    <string name="string_upload_apply_tip_wait">请稍后</string>
+    <string name="string_upload_apply_tip_copy">正在读取图片数据</string>
+    <string name="string_upload_apply_tip_md5">正在计算图片唯一码</string>
+    <string name="string_upload_apply_tip_check">正在检查图片是否已上传</string>
+    <string name="string_upload_apply_tip_can_not_upload">服务器已存在该图片,请勿重复上传</string>
+    <string name="string_upload_apply_tip_progress">已上传%.2f%%</string>
+    <string name="string_upload_apply_tip_server">同步中,请稍后</string>
+    <string name="string_upload_apply_tip_success">上传成功</string>
+    <string name="string_upload_apply_tip_error">上传失败,请点此重试</string>
+    <!--    upload apply end-->
 </resources>

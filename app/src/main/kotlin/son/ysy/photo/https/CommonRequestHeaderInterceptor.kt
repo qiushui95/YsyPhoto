@@ -1,9 +1,10 @@
 package son.ysy.photo.https
 
+import me.yangcx.base.others.appViewModel
 import okhttp3.Interceptor
 import okhttp3.Response
 import son.ysy.photo.BuildConfig
-import son.ysy.photo.data.LoginStatusData
+import son.ysy.photo.viewmodels.LoginGlobalViewModel
 
 class CommonRequestHeaderInterceptor : Interceptor {
     companion object {
@@ -13,12 +14,14 @@ class CommonRequestHeaderInterceptor : Interceptor {
         private const val KEY_VERSION_CODE = "versionCode"
     }
 
+    private val viewModel by appViewModel<LoginGlobalViewModel>()
+
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val oldRequest = chain.request()
         val builder = oldRequest.newBuilder()
 
-        val loginResult = LoginStatusData.loginCheckDelegate.getCurrentData()
+        val loginResult = viewModel.loginCheckDelegate.getCurrentData()
 
         if (loginResult != null) {
             builder.addHeader(KEY_USER_ID, loginResult.userId)

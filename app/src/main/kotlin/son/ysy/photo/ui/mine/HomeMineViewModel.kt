@@ -17,9 +17,7 @@ class HomeMineViewModel(handle: SavedStateHandle) : BaseViewModel() {
     val userInfoGetDelegate: RequestDelegateSimpleVM<ResponseUserInfo> by lazy {
         RequestDelegateSimpleVMImpl<ResponseUserInfo>(
             handle,
-            viewModelScope,
-            cancelBeforeRequest = true,
-            waitForBeforeFinish = true
+            viewModelScope
         )
     }
 

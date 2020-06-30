@@ -2,6 +2,7 @@ package me.yangcx.base.viewmodels.delegates
 
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import me.yangcx.base.entities.RequestStatus
 
@@ -47,7 +48,7 @@ interface RequestDelegateVM<DATA : Parcelable> {
 
     fun getCurrentRequestStatus(): RequestStatus?
 
-    suspend fun retry()
+    fun retry()
 
-    suspend fun doRequest(flowCreator: () -> Flow<DATA>)
+    fun doRequest(coroutineScope: CoroutineScope, flowCreator: () -> Flow<DATA>)
 }

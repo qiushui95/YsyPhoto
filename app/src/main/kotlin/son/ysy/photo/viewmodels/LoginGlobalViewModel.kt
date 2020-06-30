@@ -1,16 +1,18 @@
-package son.ysy.photo.data
+package son.ysy.photo.viewmodels
 
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
+import me.yangcx.base.viewmodels.BaseViewModel
 import me.yangcx.base.viewmodels.impls.RequestDelegateVMImpl
-import org.koin.core.KoinComponent
 import org.koin.core.inject
+import son.ysy.photo.data.SavedKVData
 import son.ysy.photo.entities.response.ResponseLoginResult
 import son.ysy.photo.repositories.LoginRepository
 
-object LoginStatusData : KoinComponent {
+class LoginGlobalViewModel : BaseViewModel() {
 
     private val parentJob = SupervisorJob()
 
@@ -19,6 +21,7 @@ object LoginStatusData : KoinComponent {
     val loginCheckDelegate by lazy {
         RequestDelegateVMImpl<ResponseLoginResult>(
             null,
+            cancelCurrentIfBusy = false,
             cancelBeforeRequest = true,
             waitForBeforeFinish = true,
             requestParentJob = parentJob
@@ -28,20 +31,21 @@ object LoginStatusData : KoinComponent {
     val loginDelegate by lazy {
         RequestDelegateVMImpl<ResponseLoginResult>(
             null,
+            cancelCurrentIfBusy = false,
             cancelBeforeRequest = true,
             waitForBeforeFinish = true,
             requestParentJob = parentJob
         )
     }
 
-    suspend fun checkLoginResult() {
-        loginCheckDelegate.doRequest {
+    fun checkLoginResult() {
+        loginCheckDelegate.doRequest(viewModelScope) {
             loginRepository.checkLogin()
         }
     }
 
-    suspend fun loginIn(phone: String) {
-        loginDelegate.doRequest {
+    fun loginIn(phone: String) {
+        loginDelegate.doRequest(viewModelScope) {
             loginRepository.login(phone)
                 .onEach {
                     loginCheckDelegate.doChangeData(it)
@@ -51,6 +55,6 @@ object LoginStatusData : KoinComponent {
     }
 
     fun logout() {
-        SavedKVData.loginResult=null
+        SavedKVData.loginResult = null
     }
 }

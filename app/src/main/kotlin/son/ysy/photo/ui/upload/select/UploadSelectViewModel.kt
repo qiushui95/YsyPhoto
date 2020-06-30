@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import me.yangcx.base.alias.LiveListData
 import me.yangcx.base.alias.MutableLiveListData
 import me.yangcx.base.ext.parcelable
@@ -41,10 +40,8 @@ class UploadSelectViewModel(handle: SavedStateHandle) : BaseViewModel() {
     }
 
     fun startFetchImage() {
-        viewModelScope.launch {
-            imageFetchDelegate.doRequest {
-                localImageRepository.loadLocalImage()
-            }
+        imageFetchDelegate.doRequest(viewModelScope) {
+            localImageRepository.loadLocalImage()
         }
     }
 

@@ -17,7 +17,10 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        finishAfterTransition()
+    override fun onStop() {
+        super.onStop()
+        if (isFinishing) {
+            finishAfterTransition()
+        }
     }
 }
