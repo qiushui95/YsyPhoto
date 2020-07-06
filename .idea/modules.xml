@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="YsyPhoto/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lib_base/lib_base.iml" filepath="$PROJECT_DIR$/.idea/modules/lib_base/lib_base.iml" group="YsyPhoto/lib_base" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lib_common/lib_common.iml" filepath="$PROJECT_DIR$/.idea/modules/lib_common/lib_common.iml" group="YsyPhoto/lib_common" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/761728647/plugin_libs.iml" filepath="$PROJECT_DIR$/.idea/modules/761728647/plugin_libs.iml" group="plugin_libs" />
     </modules>
   </component>
 </project>
