@@ -1,10 +1,7 @@
 package son.ysy.lib.base.parcelable
 
 import android.os.Parcelable
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.JsonReader
-import com.squareup.moshi.JsonWriter
-import com.squareup.moshi.ToJson
+import com.squareup.moshi.*
 import kotlinx.android.parcel.Parcelize
 import son.ysy.lib.base.json.BaseJsonAdapter
 
@@ -23,6 +20,7 @@ class ParcelableBooleanJsonAdapter : BaseJsonAdapter<ParcelableBoolean> {
                 jsonReader.nextBoolean()
             )
             else -> {
+                jsonReader.skipName()
                 jsonReader.skipValue()
                 null
             }
@@ -33,5 +31,4 @@ class ParcelableBooleanJsonAdapter : BaseJsonAdapter<ParcelableBoolean> {
     override fun toJson(jsonWriter: JsonWriter, data: ParcelableBoolean) {
         jsonWriter.value(data.value)
     }
-
 }

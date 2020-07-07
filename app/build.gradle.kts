@@ -3,6 +3,7 @@ import son.ysy.plugin.libs.Kotlins
 import son.ysy.plugin.libs.Singles
 import son.ysy.plugin.libs.Tests
 import son.ysy.plugin.libs.Views
+import son.ysy.plugin.libs.Jsons
 
 plugins {
     id("son.ysy.plugin.libs")
@@ -24,6 +25,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // 配置业务模块的模块名称
+                arguments = mapOf("HOST" to "app")
+            }
+        }
     }
 
     sourceSets {
@@ -68,7 +76,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    packagingOptions{
+    packagingOptions {
         pickFirst("META-INF/AL2.0")
         pickFirst("META-INF/LGPL2.1")
     }
@@ -77,21 +85,14 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
-    implementation(project(":lib_base"))
-
-    implementation(Kotlins.stdlib)
-
-    implementation(AndroidXs.coreKtx)
-
-    implementation(AndroidXs.appcompat)
+    api(project(":module_home"))
 
     implementation(Views.constraintLayout)
+
 
     testImplementation(Tests.jUnit)
 
     androidTestImplementation(Tests.Android.jUnit)
 
     androidTestImplementation(Tests.Android.espresso)
-
-    implementation(Singles.component)
 }

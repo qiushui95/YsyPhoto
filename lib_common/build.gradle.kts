@@ -1,15 +1,9 @@
-import son.ysy.plugin.libs.AndroidXs
-import son.ysy.plugin.libs.Kotlins
-import son.ysy.plugin.libs.Jsons
-import son.ysy.plugin.libs.Coroutines
-import son.ysy.plugin.libs.Singles
-import son.ysy.plugin.libs.Lifecycles
-import son.ysy.plugin.libs.Epoxys
-import son.ysy.plugin.libs.Views
-import son.ysy.plugin.libs.Paris
+import son.ysy.plugin.build.BuildConfig
+import son.ysy.plugin.libs.Components
 
 plugins {
     id("son.ysy.plugin.libs")
+    id("son.ysy.plugin.build")
     id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
@@ -17,14 +11,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.3")
+    compileSdkVersion(BuildConfig.compileSdkVersion)
+    buildToolsVersion(BuildConfig.buildToolsVersion)
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
+        minSdkVersion(BuildConfig.minSdkVersion)
+        targetSdkVersion(BuildConfig.targetSdkVersion)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -50,8 +42,9 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
-    implementation(project(":lib_base"))
+    api(project(":lib_base"))
 
+    api(Components.core)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
